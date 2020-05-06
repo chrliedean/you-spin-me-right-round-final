@@ -1,18 +1,6 @@
 // You Spin Me Right Round Baby, 2020
 // Charlie Dean
 
-// This useful web tool allows the viewer to click and drag to rotate a circle.
-// Doing this scrubs through a video of me rotating in a dryer drum.
-// The "video" (really a sequence of 1350 images) contains three full rotations
-// But without a way to count those rotations we only see a third of all frames :(
-
-// I have the degree variable which increments from 0 359 for one full rotation. That works (usually)
-// My theory is I need a count variable that increments from 1-3 after a complete clockwise rotation
-// and decreases after a counterclockwise rotation
-// then multiply count * degree to get a final rotation position (0deg - 1079deg)
-// which can be mapped to an int from 0 - 1349 (the frame count)
-
-
 // HERE ARE SOME VARIABLES
 let imgs = [];
 let imgCount = 452;
@@ -43,16 +31,19 @@ let introBGOpacity = 100;
 let introTextOpacity = 255;
 let loaded;
 let debug = false;
+let maskCircle;
 
 // PRELOADS ALL IMAGES IN SEQUENCE
 function preload () {
+  noCanvas();
   loaded = false;
   let loadFrameNum = 0;
-  noCanvas();
   for (let i = 0; i < imgCount; i++) {
     loadFrameNum = nf(i, 3, 0);
     imgs.push(loadImage('data/loopboy'+loadFrameNum+'.jpg'));
   }
+
+
 }
 
 // CREATES HTML <CANVAS> TO DISPLAY IMAGES. RUNS ONCE AT PAGELOAD
@@ -70,6 +61,9 @@ function setup() {
   posY = windowHeight/2;
   imageMode(CENTER);
   intro = true;
+
+  ellipseMode(CENTER);
+  maskCircle = ellipse(posX, posY, wheelSize);
 }
 
 function deviceMoved() {
@@ -223,15 +217,18 @@ function mousePressed() {
 
 // RESIZE IMAGE ON WINDOW RESIZE
 function windowResized() {
+  if(loaded) {
   resizeCanvas(windowWidth, windowHeight);
   background(0);
   wheelSize = constrain(min(windowHeight, windowWidth), 0, 920) - 20;
   posX = windowWidth/2;
   posY = windowHeight/2;
 }
+}
 
 
 function mouseReleased() {
+  if (loaded) {
   //DRAGGING STOPPED, CALCULATE ROTATION SPEED FOR COASTDOWN
   dragging = false;
   coastDown = true;
@@ -242,8 +239,8 @@ function mouseReleased() {
   } if (!rotCW) {
     endDiff = max(int(degree - degreeOld), -100);
   }
+}
 
-  // lastDeg = degree;
 
 }
 

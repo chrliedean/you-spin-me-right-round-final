@@ -17,8 +17,7 @@
   <div id="p5_loading">
     <div id="textbox">
     <h1>You Spin Me Right Round, Baby</h1>
-    <h2>Loading...</h2>
-    <span>It might take a minute.</span>
+    <h2>Loading. It might take a minute.</h2>
   </div>
   </div>
   <style>
@@ -29,27 +28,36 @@
       background-color: 0;
     }
 
-    h1, h2, span {
+    h1, h2 {
       display: block;
       text-align: center;
       font-family: 'Helvetica', 'Arial', sans-serif;
-      color: #FFF;
       width: 100%;
     }
 
     h1 {font-size: 16pt;}
     h2 {font-size: 12pt;}
-    span {font-size: 12pt;}
 
     #textbox {
       position: absolute;
       left: 50%;
       top: 50%;
-      margin: -60px 0 0 -200px;
+      margin: -45px 0 0 -200px;
+      padding: 20px;
       width: 400px;
-      height: 120px;
-      border: 3px solid #FFF;
+      height: 85px;
+      border-radius: 8px;
+      background-color: #FFF;
+      animation: loader 4s infinite;
+      color: #000;
     }
+
+  @keyframes loader {
+      0% {transform: rotate(0deg);}
+      10% {transform: rotate(180deg);}
+      20% {transform: rotate(360deg);}
+      20.0001% {transform: rotate(0deg);}
+  }
 
 
   </style>
